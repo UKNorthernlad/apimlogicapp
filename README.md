@@ -11,5 +11,3 @@ Currently documented are the steps to setup the demonstration using a mixture of
 Eventually there will be:
  * Fully documented manual steps for deploying the various Azure resources to build a simple end-to-end integration application.
  * Full scripted ARM/Bicep/AzureCLI deployment so that the whole application can be easily setup for teaching and demonstration purposes.
-
- * 
