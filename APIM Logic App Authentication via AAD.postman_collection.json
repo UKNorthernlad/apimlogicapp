@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "fde71d0d-c7c8-4ae8-8608-fa7bb9afe104",
+		"name": "APIM Logic App Authentication via AAD XXXXXXXXXXXXXX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31459391"
+	},
+	"item": [
+		{
+			"name": "1 - Get Bearer Token as User from AAD",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "default"
+						},
+						{
+							"key": "scope",
+							"value": "api://XXXXX-update-with-your-appid/Operations.StartIntegration",
+							"type": "default"
+						},
+						{
+							"key": "username",
+							"value": "someuser@sometenant.onmicrosoft.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "XXXXXXXX",
+							"type": "default"
+						},
+						{
+							"key": "client_id",
+							"value": "some-guid",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "some-secret",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/XXX-your-tenant-GUID-here-XXX/oauth2/v2.0/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"XXX-your-tenant-GUID-here-XXX",
+						"oauth2",
+						"v2.0",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - Send Request to APIM - getCorrelationID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer XXXX-your-bearer-token-here-XXXX",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerID\" : \"Cust123\",\r\n    \"applicationID\" : \"App123\",\r\n    \"action\": \"RequestCorrelationID\",\r\n    \"message\" : \"hello\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/metadata/api/getCorrelationID",
+					"protocol": "https",
+					"host": [
+						"XXX-your-APIM-instance-name-XXX",
+						"azure-api",
+						"net"
+					],
+					"path": [
+						"metadata",
+						"api",
+						"getCorrelationID"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Send Request to APIM - Check Correlation ID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer XXXX-your-bearer-token-here-XXXX",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerID\" : \"ABC123\",\r\n    \"applicationID\" : \"XYZ123\",\r\n    \"action\": \"RequestCorrelationID\",\r\n    \"message\" : \"hello\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/metadata/api/checkCorrelationID",
+					"protocol": "https",
+					"host": [
+						"XXX-your-APIM-instance-name-XXX",
+						"azure-api",
+						"net"
+					],
+					"path": [
+						"metadata",
+						"api",
+						"checkCorrelationID"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    "logicAppName": {
+      "type": "string",
+      "defaultValue" : "blahlogicapp",
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+
+    "logicAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+
+    "sql_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "documentdb"
+    },
+
+    "sql_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "documentdb"
+    },
+
+    "sql_1_databaseAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the account without 'documents.azure.com' part"
+      },
+      "defaultValue": "[concat('cosmos-', uniqueString(resourceGroup().id))]"
+    },
+
+    "sql_1_accessKey": {
+      "type": "securestring",
+      "defaultValue" : "password123",
+      "metadata": {
+        "description": "Primary or Secondary Key"
+      }
+    }
+
+  },
+
+  "resources": [
+
+   {
+      "name": "sql2000",
+      "type": "Microsoft.Web/connections",
+      "location": "eastus",
+      "apiVersion" : "2016-06-01",
+      "kind": "V1",
+      "properties": {
+          "displayName": "StandardConnection",
+          "connectionState": "Enabled",
+          "parameterValueSet": {
+              "name": "sqlAuthentication",
+              "values": {
+                  "server": {
+                      "value": "mydemoserver99.database.windows.net"
+                  },
+                  "database": {
+                      "value": "integrationhub"
+                  },
+                  "username": {
+                    "value": "databaseadmin"
+                },
+                "password": {
+                  "value": "XXXXXX123YYYY!!!"
+              }
+            }
+          },
+          "api": {
+              "name": "sql",
+              "displayName": "SQL Server",
+              "description": "Microsoft SQL Server is a relational database management system developed by Microsoft. Connect to SQL Server to manage data. You can perform various actions such as create, update, get, and delete on rows in a table.",
+              "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1666/1.0.1666.3495/sql/icon.png",
+              "brandColor": "#ba141a",
+              "category": "Standard",
+              "id": "/subscriptions/3a334aad-b40f-4440-aaa1-4644475b52e2/providers/Microsoft.Web/locations/eastus/managedApis/sql",
+              "type": "Microsoft.Web/locations/managedApis"
+          }
+      }
+
+   }
+
+  ],
+
+  "outputs": {}
+}
