@@ -48,9 +48,10 @@
   },
 
   "resources": [
-
+    // The type of resource is just Microsoft.Web/connections - notice this doesn't really say it's SQL or cosmosDB etc. That comes later.
+    // There is a reference to sqlAuthentication in "properties", but that's just the name of a parameterValueSet that the real API connector uses.
    {
-      "name": "sql2000",
+      "name": "sqlconnection",
       "type": "Microsoft.Web/connections",
       "location": "eastus",
       "apiVersion" : "2016-06-01",
@@ -62,7 +63,7 @@
               "name": "sqlAuthentication",
               "values": {
                   "server": {
-                      "value": "mydemoserver99.database.windows.net"
+                      "value": "myserver99.database.windows.net"
                   },
                   "database": {
                       "value": "integrationhub"
@@ -75,15 +76,9 @@
               }
             }
           },
+          // This is where we define this as a connection to a SQL database. Here we are referencing a "built-in" connector by id.
           "api": {
-              "name": "sql",
-              "displayName": "SQL Server",
-              "description": "Microsoft SQL Server is a relational database management system developed by Microsoft. Connect to SQL Server to manage data. You can perform various actions such as create, update, get, and delete on rows in a table.",
-              "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1666/1.0.1666.3495/sql/icon.png",
-              "brandColor": "#ba141a",
-              "category": "Standard",
-              "id": "/subscriptions/3a334aad-b40f-4440-aaa1-4644475b52e2/providers/Microsoft.Web/locations/eastus/managedApis/sql",
-              "type": "Microsoft.Web/locations/managedApis"
+              "id": "/subscriptions/3a334aad-b40f-4440-aaa1-4644475b52e2/providers/Microsoft.Web/locations/eastus/managedApis/sql"
           }
       }
 

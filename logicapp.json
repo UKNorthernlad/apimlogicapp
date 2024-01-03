@@ -5,7 +5,7 @@
 
     "logicAppName": {
       "type": "string",
-      "defaultValue" : "blahlogicapp",
+      "defaultValue" : "sql-backend-logicapp",
       "metadata": {
         "description": "Name of the Logic App."
       }
@@ -16,32 +16,6 @@
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "Location of the Logic App."
-      }
-    },
-
-    "sql_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "documentdb"
-    },
-
-    "sql_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "documentdb"
-    },
-
-    "sql_1_databaseAccount": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the account without 'documents.azure.com' part"
-      },
-      "defaultValue": "[concat('cosmos-', uniqueString(resourceGroup().id))]"
-    },
-
-    "sql_1_accessKey": {
-      "type": "securestring",
-      "defaultValue" : "password123",
-      "metadata": {
-        "description": "Primary or Secondary Key"
       }
     }
 
@@ -61,32 +35,92 @@
       "properties": {
         
 
-      
-        "definition": {
-          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-          "actions": {
-              "Response": {
-                  "inputs": {
-                      "body": "Hello world",
-                      "statusCode": 200
+
+          "definition": {
+              "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+              "actions": {
+                  "Insert_row_(V2)": {
+                      "inputs": {
+                          "body": {
+                              "application": "@triggerBody()?['applicationID']",
+                              "date": "@{formatDateTime(utcNow(),'ddMMyyyy')}",
+                              "username": "@triggerBody()?['customerID']"
+                          },
+                          "host": {
+                              "connection": {
+                                  "name": "@parameters('$connections')['sql']['connectionId']"
+                              }
+                          },
+                          "method": "post",
+                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Executions]'))}/items"
+                      },
+                      "runAfter": {},
+                      "type": "ApiConnection"
                   },
-                  "kind": "Http",
-                  "runAfter": {},
-                  "type": "Response"
+                  "Response": {
+                      "inputs": {
+                          "body": {
+                              "message": "hello world - @{utcNow()}"
+                          },
+                          "headers": {
+                              "Content-Type": "application/json"
+                          },
+                          "statusCode": 200
+                      },
+                      "kind": "Http",
+                      "runAfter": {
+                          "Insert_row_(V2)": [
+                              "Succeeded"
+                          ]
+                      },
+                      "type": "Response"
+                  }
+              },
+              "contentVersion": "1.0.0.0",
+              "outputs": {},
+              "parameters": {
+                  "$connections": {
+                      "defaultValue": {},
+                      "type": "Object"
+                  }
+              },
+              "triggers": {
+                  "manual": {
+                      "inputs": {
+                          "schema": {
+                              "properties": {
+                                  "action": {
+                                      "type": "string"
+                                  },
+                                  "applicationID": {
+                                      "type": "string"
+                                  },
+                                  "customerID": {
+                                      "type": "string"
+                                  },
+                                  "message": {
+                                      "type": "string"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      },
+                      "kind": "Http",
+                      "type": "Request"
+                  }
               }
           },
-          "contentVersion": "1.0.0.0",
-          "outputs": {},
-          "parameters": {},
-          "triggers": {
-              "manual": {
-                  "inputs": {},
-                  "kind": "Http",
-                  "type": "Request"
+          "parameters": {
+              "$connections": {
+                  "value": {
+                      "sql": {
+                          "connectionId": "/subscriptions/3a334aad-b40f-4440-aaa1-4644475b52e2/resourceGroups/demo2/providers/Microsoft.Web/connections/sqlconnection",
+                          "connectionName": "sqlconnection",
+                          "id": "/subscriptions/3a334aad-b40f-4440-aaa1-4644475b52e2/providers/Microsoft.Web/locations/eastus/managedApis/sql"
+                      }
+                  }
               }
           }
-      },
-      "parameters": {}
 
       }
    }

@@ -86,7 +86,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/metadata/api/getCorrelationID",
+					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/integrationhub/api/getCorrelationID",
 					"protocol": "https",
 					"host": [
 						"XXX-your-APIM-instance-name-XXX",
@@ -123,7 +123,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/metadata/api/checkCorrelationID",
+					"raw": "https://XXX-your-APIM-instance-name-XXX.azure-api.net/integrationhub/api/checkCorrelationID",
 					"protocol": "https",
 					"host": [
 						"XXX-your-APIM-instance-name-XXX",

@@ -1,0 +1,121 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "IntegrationPOC",
+        "description": "",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://demoapi99.azure-api.net/metadata"
+        }
+    ],
+    "paths": {
+        "/api/getCorrelationID": {
+            "post": {
+                "summary": "getCorrelationID",
+                "description": "Used to request a new integration correlation ID.",
+                "operationId": "getcid",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IntegrationRequest"
+                            },
+                            "example": {
+                                "customerID": "ABC123",
+                                "applicationID": "ABC123",
+                                "action": "RequestCorrelationID"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "A successfully created request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "correlationID": "GUID"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/checkCorrelationID": {
+            "post": {
+                "summary": "checkCorrelationID",
+                "description": "Used to request a new integration correlation ID.",
+                "operationId": "657ae2d6e615c5b78d568e75",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IntegrationRequest"
+                            },
+                            "example": {
+                                "customerID": "ABC123",
+                                "applicationID": "ABC123",
+                                "action": "RequestCorrelationID"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "A successfully created request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "correlationID": "GUID"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "IntegrationRequest": {
+                "type": "object",
+                "properties": {
+                    "customerID": {
+                        "type": "string"
+                    },
+                    "applicationID": {
+                        "type": "string"
+                    },
+                    "action": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}

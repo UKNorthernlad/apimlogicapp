@@ -1,0 +1,26 @@
+
+    "sql_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "documentdb"
+    },
+
+    "sql_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "documentdb"
+    },
+
+    "sql_1_databaseAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the account without 'documents.azure.com' part"
+      },
+      "defaultValue": "[concat('cosmos-', uniqueString(resourceGroup().id))]"
+    },
+
+    "sql_1_accessKey": {
+      "type": "securestring",
+      "defaultValue" : "password123",
+      "metadata": {
+        "description": "Primary or Secondary Key"
+      }
+    }
